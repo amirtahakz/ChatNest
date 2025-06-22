@@ -1,0 +1,119 @@
+﻿@using ChatNest.Core.ViewModels.Chats
+@model List<UserGroupViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .disConnect {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: #0000008c;
+}
+.disConnect div {
+    margin: auto;
+    position: relative;
+    top: 10%;
+    width: 40%;
+    background: white;
+    box-shadow: 0 0 5px 0 black;
+    text-align: center;
+}
+</style>
+<div class="disConnect">
+    <div>
+        <p>Your connection to the server has been lost .</p>
+        <p>Connecting ...</p>
+    </div>
+</div>
+@*---Modal---*@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form class="modal-content" enctype="multipart/form-data" onsubmit="insertGroup(event)">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Create group</h5>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="groupName" class="form-control ltr-chat" placeholder="Enter the group name" />
+                <br />
+                <input type="file" accept="image/*" name="image" id="image" class="form-control ltr-chat" mt-2 />
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Create group</button>
+            </div>
+        </form>
+    </div>
+</div>
+@*---Modal---*@
+
+<div class="row">
+    <div class="col-8 chat-content">
+        <div class="header" style="display: none">
+            <img src="img/Default.jpg" />
+            <h2>Sam</h2>
+        </div>
+        <div class="chats">
+
+        </div>
+        <div class="footer" style="display: none">
+            <form onsubmit="SendMessage(event)">
+                <input id="messageText" type="text" class="form-control" placeholder="Enter your text">
+                <button class="btn btn-success">
+                    Send
+                    <i class="fa fa-send"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-4 rooms">
+        <Ul>
+            <li>
+                <form>
+                    <input type="text" onkeyup="search()" placeholder="Search" id="search_input" class="form-control ltr-chat" style="padding-left:30px"/>
+                    <i class="fa fas fa-search"></i>
+                </form>
+            </li>
+            <li id="search_result" style="cursor: none; padding: 0;display: none">
+                <ul>
+                </ul>
+
+            </li>
+            <li id="user_groups" style="cursor: none;padding: 0">
+                <ul>
+                    <li>
+                        <button data-toggle="modal" data-target="#exampleModal" class="btn btn-success btn-block" style="width: 100%">
+                            <i class="fa fa-plus"></i>
+                            Create group
+                        </button>
+                    </li>
+                    @foreach (var item in Model)
+                    {
+                        <li onclick="joinInGroup('@item.Token')">
+                            @item.GroupName
+                            <img src="/image/groups/@item.ImageName" />
+                            @if (item.LastChat != null)
+                            {
+                                var time = item.LastChat.CreateDate;
+                                <span>@time.Date @time.Minute : @time.Second</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </li>
+
+
+        </Ul>
+    </div>
+</div>
+@section Scripts{
+    
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/SignalRCostomize.js"></script>
+}
+
