@@ -144,7 +144,7 @@ function search() {
                     $("#search_result ul").append(`
                                  <li onclick="joinInPrivateGroup(${data[i].token})">
                                             ${data[i].title}
-                                            <img src="/img/${data[i].imageName}" />
+                                            <img src="/image/${data[i].imageName}" />
                                             <span></span>
                                         </li>
                         `);

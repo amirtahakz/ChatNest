@@ -15,16 +15,12 @@ namespace ChatNest.Data.Entities.Users
         public string Password { get; set; }
         public string Avatar { get; set; }
 
-        #region Relation
-
-        [InverseProperty("User")]
-        public ICollection<ChatGroup> ChatGroups { get; set; }
+        [InverseProperty("Owner")]
+        public ICollection<ChatGroup> OwnedChatGroups { get; set; } = new HashSet<ChatGroup>();
         [InverseProperty("Receiver")]
-        public ICollection<ChatGroup> PrivateGroup { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
-        public ICollection<Chat> Chats { get; set; }
-        public ICollection<UserGroup> UserGroups { get; set; }
-
-        #endregion
+        public ICollection<ChatGroup> ReceivedPrivateGroup { get; set; } = new HashSet<ChatGroup>();
+        public ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+        public ICollection<Chat> Chats { get; set; } = new HashSet<Chat>();
+        public ICollection<UserGroup> UserGroups { get; set; } = new HashSet<UserGroup>();
     }
 }

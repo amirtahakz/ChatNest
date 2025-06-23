@@ -13,12 +13,12 @@ namespace ChatNest.Data.Entities.Chats
         public string ChatBody { get; set; }
         public long UserId { get; set; }
         public long GroupId { get; set; }
-        #region Relation
+
         [ForeignKey(name: "UserId")]
         public User User { get; set; }
+
         [ForeignKey(name: "GroupId")]
         public ChatGroup ChatGroup { get; set; }
 
-        #endregion
     }
 }

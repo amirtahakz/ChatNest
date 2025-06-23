@@ -1,0 +1,14 @@
+﻿@using ChatNest.Core.ViewModels.Auth
+@model RegisterViewModel
+<form method="post" asp-controller="Auth" asp-action="Register">
+    <div asp-validation-summary="All" class="text-danger mb-2"></div>
+    <h1 class="text-center">Register</h1>
+    <label class="ltr-chat">Username</label>
+    <input asp-for="UserName" type="text" id="registerUserName" class="form-control ltr-chat" />
+    <label class="mt-3 ltr-chat">Password </label>
+    <input asp-for="Password" type="password" class="form-control ltr-chat" />
+    <label class="mt-3 ltr-chat">RePassword</label>
+    <input asp-for="RePassword" type="password" id="registerPassword" class="form-control ltr-chat" />
+    <button type="submit" class="btn btn-success mt-4 float-end" style="margin-right: 8px;">Register</button>
+    <button type="button" id="login-btn" class="btn btn-primary mt-4 ">Login</button>
+</form>

@@ -11,15 +11,32 @@ namespace ChatNest.Core.Services.Users.UserGroups
 {
     public class UserGroupService : BaseService, IUserGroupService
     {
-        public UserGroupService(TestChatContext context) : base(context) { }
+        public UserGroupService(ApplicationDbContext context) : base(context) { }
 
         public async Task<List<UserGroupViewModel>> GetUserGroups(long userId)
         {
+
             var result = await Table<UserGroup>()
+                .Include(c=>c.ChatGroup)
+                .Where(g => g.UserId == userId && !g.ChatGroup.IsPrivate).ToListAsync();
+
+
+            var result2 = await Table<UserGroup>()
                 .Include(c => c.ChatGroup.Chats)
                 .Include(c => c.ChatGroup.Receiver)
-                .Include(c => c.ChatGroup.User)
+                .Include(c => c.ChatGroup.Owner)
                 .Where(g => g.UserId == userId && !g.ChatGroup.IsPrivate).ToListAsync();
+
+            var result3 = await Table<UserGroup>()
+                  .Include(g => g.ChatGroup)
+                      .ThenInclude(cg => cg.Chats)
+                  .Include(g => g.ChatGroup)
+                      .ThenInclude(cg => cg.Receiver)
+                  .Include(g => g.ChatGroup)
+                      .ThenInclude(cg => cg.Owner)
+                  .ToListAsync();
+
+
 
             var model = new List<UserGroupViewModel>();
 
@@ -30,8 +47,8 @@ namespace ChatNest.Core.Services.Users.UserGroups
                     if (userGroup.ChatGroup.ReceiverId == userId)
                         model.Add(new UserGroupViewModel()
                         {
-                            ImageName = chatGroup.User.Avatar,
-                            GroupName = chatGroup.User.UserName,
+                            ImageName = chatGroup.Owner.Avatar,
+                            GroupName = chatGroup.Owner.UserName,
                             Token = chatGroup.GroupToken,
                             LastChat = chatGroup.Chats.OrderByDescending(d => d.Id).FirstOrDefault()
                         });

@@ -16,7 +16,7 @@ namespace ChatNest.Core.Services.Chats.ChatGroups
     {
         private IUserGroupService _Usergroup;
 
-        public ChatGroupService(TestChatContext context, IUserGroupService usergroup) : base(context)
+        public ChatGroupService(ApplicationDbContext context, IUserGroupService usergroup) : base(context)
         {
             _Usergroup = usergroup;
         }
@@ -80,24 +80,30 @@ namespace ChatNest.Core.Services.Chats.ChatGroups
 
         public async Task<ChatGroup> GetGroupBy(long id)
         {
-            return await Table<ChatGroup>()
-                .Include(c => c.User)
-                .Include(c => c.Receiver)
+            var result = await Table<ChatGroup>()
+                .Include(c => c.Owner)
                 .FirstOrDefaultAsync(g => g.Id == id);
+            return result;
         }
 
         public async Task<ChatGroup> GetGroupBy(string token)
         {
-            return await Table<ChatGroup>()
-                .Include(c => c.User)
+            var reult2 = await Table<ChatGroup>()
+                .Include(c => c.Owner)
                 .Include(c => c.Receiver)
                 .FirstOrDefaultAsync(g => g.GroupToken == token);
+
+            var result = await Table<ChatGroup>()
+                .Include(c => c.Owner)
+                .FirstOrDefaultAsync(g => g.GroupToken == token);
+
+            return result;
         }
 
         public async Task<ChatGroup> InsertPrivateGroup(long userId, long receiverId)
         {
             var group = await Table<ChatGroup>()
-                .Include(c => c.User)
+                .Include(c => c.Owner)
                 .Include(c => c.Receiver)
                 .SingleOrDefaultAsync(s =>
                     s.OwnerId == userId && s.ReceiverId == receiverId

@@ -1,9 +1,16 @@
 ﻿@using ChatNest.Core.ViewModels.Auth
+@{
+    ViewData["Title"] = "Chat";
+}
+@section Styles{
+    <link href="~/css/bootstrap.min.rtl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/main.css" />
+}
 <div id="login" class="auth" >
-    <partial name="auth/_Login" model="new LoginViewModel()"/>
+    <partial name="_Login" model="new LoginViewModel()"/>
 </div>
 <div id="register" class="auth"  style="display: none;">
-    <partial name="auth/_Register" model="new RegisterViewModel()"/>
+    <partial name="_Register" model="new RegisterViewModel()"/>
 </div>
 @section Scripts{ 
     <partial name="_ValidationScriptsPartial">

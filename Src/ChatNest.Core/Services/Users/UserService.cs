@@ -13,7 +13,7 @@ namespace ChatNest.Core.Services.Users
 {
 	public class UserService : BaseService, IUserService
 	{
-		public UserService(TestChatContext context) : base(context)
+		public UserService(ApplicationDbContext context) : base(context)
 		{
 		}
 		public async Task<bool> IsUserExist(string userName)

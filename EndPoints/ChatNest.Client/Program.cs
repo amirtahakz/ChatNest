@@ -11,20 +11,19 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 var services = builder.Services;
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 
 services.AddControllersWithViews();
-services.AddDbContext<TestChatContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+
+// For Entity Framework  
+services.AddDbContext<ApplicationDbContext>(option => { option.UseSqlServer(connectionString); });
+
 
 services.AddScoped<IChatGroupService, ChatGroupService>();
 services.AddScoped<IChatService, ChatService>();
-
 services.AddScoped<IRoleService, RoleService>();
-
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IUserGroupService, UserGroupService>();
 
@@ -60,11 +59,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-     name: "default",
-     pattern: "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapHub<ChatHub>("/chat");
 });
 

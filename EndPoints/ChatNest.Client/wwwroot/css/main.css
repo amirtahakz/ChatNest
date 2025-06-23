@@ -44,7 +44,7 @@
   position: relative;
   overflow-x: hidden;
   padding: 0;
-  background: url("../img/pattern.png"), #f3f7fa;
+  background: url("../image/pattern.png"), #f3f7fa;
   height: 100vh;
   padding-bottom: 28px;
 }
@@ -307,4 +307,3 @@ ul {
     text-align :left !important;
     direction : ltr !important;
 }
-/*# sourceMappingURL=main.css.map */

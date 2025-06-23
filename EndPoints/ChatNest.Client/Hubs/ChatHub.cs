@@ -39,14 +39,14 @@ namespace ChatNest.Client.Hubs
 
         //public async Task SendMessage(string text)
         //{
-        //    var userName = Context.User.FindFirstValue(ClaimTypes.Name);
+        //    var userName = Context.Owner.FindFirstValue(ClaimTypes.Name);
         //    await Clients.All.SendAsync("ReceiveMessage" , $"{userName} : {text}");
         //}
         //public async Task CreateGroup(string groupName)
         //{
         //    try
         //    {
-        //        var group = await _groupService.InsertGroup(groupName, Context.User.GetUserId());
+        //        var group = await _groupService.InsertGroup(groupName, Context.Owner.GetUserId());
         //        await Clients.Caller.SendAsync("NewGroup", groupName, group.GroupToken);
         //    }
         //    catch
@@ -156,8 +156,8 @@ namespace ChatNest.Client.Hubs
                     Id = chatGroup.Id,
                     GroupToken = chatGroup.GroupToken,
                     CreateDate = chatGroup.CreateDate,
-                    GroupTitle = chatGroup.User.UserName,
-                    ImageName = chatGroup.User.Avatar,
+                    GroupTitle = chatGroup.Owner.UserName,
+                    ImageName = chatGroup.Owner.Avatar,
                     IsPrivate = false,
                     OwnerId = chatGroup.OwnerId,
                     ReceiverId = chatGroup.ReceiverId

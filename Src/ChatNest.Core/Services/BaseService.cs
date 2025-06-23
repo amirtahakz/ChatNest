@@ -15,9 +15,9 @@ namespace ChatNest.Core.Services
     {
         private readonly ConcurrentDictionary<string, object> _entitySets = new ConcurrentDictionary<string, object>();
 
-        protected TestChatContext _context { get; private set; }
+        protected ApplicationDbContext _context { get; private set; }
 
-        protected BaseService(TestChatContext context)
+        protected BaseService(ApplicationDbContext context)
         {
             _context = context;
         }
